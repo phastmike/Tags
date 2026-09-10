@@ -503,20 +503,21 @@ namespace Tags {
         }
 
         private void dialog_add_tag (string? pattern = null) {
-            /*
-            string? selected_text = null;
+            TagDialog tag_dialog;
+            string? text = pattern;
+            bool from_selection = false;
 
             if (pattern == null) {
                 var bs = lines_colview.selection_model.get_selection ();
                 if (bs.is_empty () == false) {
                     var line = filterer.model.get_item (bs.get_nth ((uint) bs.get_size () - 1)) as Line;
-                    selected_text = line.text;
-                    message("selected_text = %s", selected_text);
+                    text = line.text;
+                    message("selected_text = %s", text);
+                    from_selection = true;
                 }
             }
-            */
 
-            var tag_dialog = new TagDialog (this.application, pattern);
+            tag_dialog = new TagDialog (this.application, text, from_selection);
 
             tag_dialog.added.connect ((tag, add_to_top) => {
                 tag.changed.connect (() => {

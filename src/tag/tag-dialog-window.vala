@@ -38,6 +38,8 @@ namespace Tags {
         private unowned Gtk.Switch switch_atop;
         [GtkChild]
         private unowned Gtk.Button button_regenerate_cs;
+        [GtkChild]
+        private unowned Gtk.Button button_use_selection;
 
         private const string css_class = "color_scheme_example";
 
@@ -67,7 +69,9 @@ namespace Tags {
             });
         }
 
-        public TagDialog (Gtk.Application app, string? text = null) {
+        public TagDialog (Gtk.Application app, string? text = null, bool from_selection = false) {
+
+            if (from_selection == true) button_use_selection.set_visible (true);
 
             row_btn_add_tag.set_visible (true);
             row_btn_add_tag.activated.connect (() => {
@@ -94,8 +98,14 @@ namespace Tags {
 
             set_random_color_scheme ();
 
-            if (text != null) {
+            if (text != null && from_selection ==false) {
                 entry_tag_pattern.set_text (text);
+            }
+
+            if (from_selection == true) {
+                button_use_selection.clicked.connect ( () => {
+                    entry_tag_pattern.set_text (text);
+                });
             }
         }
 
